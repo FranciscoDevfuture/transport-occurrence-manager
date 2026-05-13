@@ -1,1 +1,85 @@
-# transport-occurrence-manager
+# 🚌 Bus Occurrence Generator
+
+Sistema web desenvolvido para auxiliar operadores de transporte coletivo na geração rápida de ocorrências operacionais.
+
+## 📌 Objetivo
+
+O projeto foi criado para automatizar processos repetitivos no ambiente operacional, reduzindo o tempo de preenchimento manual de ocorrências e padronizando informações importantes.
+
+---
+
+## ⚙️ Funcionalidades
+
+### ✅ Intervalo Prolongado
+- Cálculo automático de intervalo
+- Validação de limite operacional
+- Geração automática do texto da ocorrência
+
+### ✅ Coletivo Realocado
+- Registro de realocação de veículos
+- Informações operacionais completas
+
+### ✅ Perda de Partida
+- Registro rápido de partidas perdidas
+- Geração automática de relatório
+
+### ✅ Coletivo Avariado
+- Cadastro de avarias
+- Dados de motorista e cobrador
+
+### ✅ S.O.S Operacional
+- Controle de atendimento mecânico
+- Registro de chegada e observações
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- HTML5
+- CSS3
+- JavaScript Vanilla
+
+---
+
+## 💡 Diferenciais
+
+- Interface moderna e responsiva
+- Sistema leve e rápido
+- Funciona diretamente no navegador
+- Não necessita instalação
+- Automatiza processos repetitivos operacionais
+
+---
+
+## 🚀 Como executar
+
+1. Faça o download do projeto
+2. Abra o arquivo `index.html`
+3. Utilize diretamente no navegador
+
+---
+
+## 📷 Interface do Sistema
+
+O sistema possui interface intuitiva com abas separadas para cada tipo de ocorrência operacional.
+
+---
+
+## 🎯 Aplicação prática
+
+Este sistema foi desenvolvido com foco em operações de transporte coletivo urbano, auxiliando controladores operacionais, monitoramento e equipes de gestão.
+
+---
+
+## 👨‍💻 Autor
+
+Francisco José
+
+Estudante de Análise e Desenvolvimento de Sistemas  
+Profissional com experiência em operações e monitoramento.
+
+---
+
+## 📄 Licença
+
+Projeto para fins educacionais e de automação operacional.
