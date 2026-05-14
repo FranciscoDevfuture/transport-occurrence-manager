@@ -91,4 +91,31 @@ Para Alterar os nomes, é preciso editar o index.html no bloco de notas seção 
 O mesmo vale para as linhas para auto preenchimento
 <img width="736" height="605" alt="image" src="https://github.com/user-attachments/assets/74285d77-6df3-46fc-b0ec-8925d1eed4c0" />
 
+[16:49, 14/05/2026] Franco: Funcionalidades Principais nas atulizações
 
+| Aba | Função |
+|-----|--------|
+| *⏱️ Intervalo* | Calcula se o intervalo entre partidas está dentro do limite permitido (frequência ×2 +1) e gera ocorrência se ultrapassado |
+| *🔄 Realocado* | Registra quando um coletivo é realocado para outra linha |
+| *❌ Perca Partida* | Documenta perda de horário de partida |
+| *🔧 Avaria* | Registra veículos avariados e acionamento do S.O.S |
+
+ Principais Campos
+- Dados da linha (nome, prefixos, horários)
+- Responsáveis (ET/OTU, COP, Operacional)
+- Frequência da linha (10/15/20 min ou personalizada)
+- Motivo da ocorrência
+- Informações de S.O.S (mecânico, placa, etc.)
+
+Diferenciais implementadas
+- ✅ *Autocomplete* para linhas e prefixos
+- ✅ *Validação* de campos obrigatórios
+- ✅ *Cálculo automático* de intervalos e limites
+- ✅ *Geração de texto* formatado da ocorrência
+- ✅ *Cópia* (texto/HTML) para registro
+- ✅ *Design responsivo* para mobile
+- ✅ *Tabela de referência* com limites por frequência
+ 
+Público-alvo
+Gestores operacionais, fiscais de transporte, equipes de controle de frota e departamento de ocorrências.
+[16:49, 14/05/2026] Franco: Auto Preenchimento de linhas apenas para o  Terminal Grajaú, updates futuros para outros terminais.
