@@ -83,3 +83,12 @@ Profissional com experiência em operações e monitoramento.
 ## 📄 Licença
 
 Projeto para fins educacionais e de automação operacional.
+
+Por motivo de Confidêncialidade, foi usado nomes fictícios para fins acadêmicos.
+Para Alterar os nomes, é preciso editar o index.html no bloco de notas seção Arrys encarregados conforme o print abaixo.
+<img width="1107" height="611" alt="image" src="https://github.com/user-attachments/assets/f6236835-2005-4c11-9c98-e283699317a7" />
+
+O mesmo vale para as linhas para auto preenchimento
+<img width="736" height="605" alt="image" src="https://github.com/user-attachments/assets/74285d77-6df3-46fc-b0ec-8925d1eed4c0" />
+
+
