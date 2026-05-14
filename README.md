@@ -91,7 +91,7 @@ Para Alterar os nomes, é preciso editar o index.html no bloco de notas seção 
 O mesmo vale para as linhas para auto preenchimento
 <img width="736" height="605" alt="image" src="https://github.com/user-attachments/assets/74285d77-6df3-46fc-b0ec-8925d1eed4c0" />
 
-[16:49, 14/05/2026] Franco: Funcionalidades Principais nas atulizações
+ Funcionalidades Principais nas atulizações
 
 | Aba | Função |
 |-----|--------|
@@ -118,4 +118,4 @@ Diferenciais implementadas
  
 Público-alvo
 Gestores operacionais, fiscais de transporte, equipes de controle de frota e departamento de ocorrências.
-[16:49, 14/05/2026] Franco: Auto Preenchimento de linhas apenas para o  Terminal Grajaú, updates futuros para outros terminais.
+Auto Preenchimento de linhas apenas para o  Terminal Grajaú, updates futuros para outros terminais.
