@@ -128,6 +128,12 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
 .ref-table tr:nth-child(even) td{background:var(--light)}
 .freq-col{font-weight:700;color:var(--blue)}
 .lim-col{font-weight:700;color:var(--red)}
+
+/* Indicador de rascunho */
+.draft-indicator{position:fixed;bottom:20px;right:20px;background:var(--navy);color:var(--accent);padding:8px 16px;border-radius:30px;font-size:.75rem;font-weight:700;box-shadow:0 2px 12px rgba(0,0,0,.2);z-index:1000;opacity:0;transition:opacity .3s;pointer-events:none}
+.draft-indicator.show{opacity:1}
+.limpar-tudo-btn{width:100%;margin-top:20px;margin-bottom:10px;padding:12px;background:rgba(192,57,43,.15);border:2px solid #c0392b;border-radius:9px;color:#c0392b;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s}
+.limpar-tudo-btn:hover{background:rgba(192,57,43,.25)}
 </style>
 </head>
 <body>
@@ -156,18 +162,18 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
     <div class="card-body">
       <div class="field">
         <label>Nome da Linha</label>
-        <input type="text" id="i_linha" placeholder="Ex: Circular Centro" oninput="ac(this,'linhas','ac_i_linha')" onkeydown="acKey(event,'ac_i_linha')" autocomplete="off">
+        <input type="text" id="i_linha" placeholder="Ex: Circular Centro" oninput="ac(this,'linhas','ac_i_linha');autoSave()" onkeydown="acKey(event,'ac_i_linha')" autocomplete="off">
         <div class="ac-list" id="ac_i_linha"></div>
       </div>
       <div class="row2">
         <div class="field">
           <label>Prefixo Anterior</label>
-          <input type="text" id="i_prefAnt" placeholder="Ex: 1234" oninput="ac(this,'prefixos','ac_i_prefAnt')" onkeydown="acKey(event,'ac_i_prefAnt')" autocomplete="off">
+          <input type="text" id="i_prefAnt" placeholder="Ex: 1234" oninput="ac(this,'prefixos','ac_i_prefAnt');autoSave()" onkeydown="acKey(event,'ac_i_prefAnt')" autocomplete="off">
           <div class="ac-list" id="ac_i_prefAnt"></div>
         </div>
         <div class="field">
           <label>Prefixo Posterior</label>
-          <input type="text" id="i_prefPos" placeholder="Ex: 5678" oninput="ac(this,'prefixos','ac_i_prefPos')" onkeydown="acKey(event,'ac_i_prefPos')" autocomplete="off">
+          <input type="text" id="i_prefPos" placeholder="Ex: 5678" oninput="ac(this,'prefixos','ac_i_prefPos');autoSave()" onkeydown="acKey(event,'ac_i_prefPos')" autocomplete="off">
           <div class="ac-list" id="ac_i_prefPos"></div>
         </div>
       </div>
@@ -180,12 +186,12 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
       <div class="row2">
         <div class="field">
           <label>Funcionários(ET)/(OTU)</label>
-          <select id="i_et"></select>
+          <select id="i_et" onchange="autoSave()"></select>
         </div>
         <div class="field">
           <label>COP</label>
-         <input type="text" id="s_cop" placeholder="Informe o COP">
-	</div>     
+         <input type="text" id="s_cop" placeholder="Informe o COP" oninput="autoSave()">
+        </div>     
        </div>
     </div>
   </div>
@@ -199,7 +205,7 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
         <div class="freq-btn" onclick="selFreq(20,this)"><span class="num">20</span><span class="min">minutos</span></div>
       </div>
       <div class="custom-freq-row">
-        <input type="number" id="i_freqCustom" min="1" max="180" placeholder="Outro intervalo (min)">
+        <input type="number" id="i_freqCustom" min="1" max="180" placeholder="Outro intervalo (min)" oninput="autoSave()">
         <button class="btn-custom-freq" onclick="selCustomFreq()">Usar</button>
       </div>
       <div id="i_customTag" class="custom-tag" style="display:none"></div>
@@ -210,8 +216,8 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
     <div class="card-header"><span>🕐</span><h2>Horários de Partida</h2></div>
     <div class="card-body">
       <div class="row2">
-        <div class="field"><label>⬅ Partida Anterior</label><input type="time" id="i_horAnt" value="07:30"></div>
-        <div class="field"><label>➡ Partida Posterior</label><input type="time" id="i_horPos" value="08:15"></div>
+        <div class="field"><label>⬅ Partida Anterior</label><input type="time" id="i_horAnt" value="07:30" onchange="autoSave()" oninput="autoSave()"></div>
+        <div class="field"><label>➡ Partida Posterior</label><input type="time" id="i_horPos" value="08:15" onchange="autoSave()" oninput="autoSave()"></div>
       </div>
     </div>
   </div>
@@ -219,7 +225,7 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
   <div class="card">
     <div class="card-header"><span>📝</span><h2>Motivo</h2></div>
     <div class="card-body">
-      <div class="field"><textarea id="i_motivo" placeholder="Descreva o motivo do intervalo..."></textarea></div>
+      <div class="field"><textarea id="i_motivo" placeholder="Descreva o motivo do intervalo..." oninput="autoSave()"></textarea></div>
     </div>
   </div>
 
@@ -280,39 +286,39 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
     <div class="card-body">
       <div class="field">
         <label>Linha</label>
-        <input type="text" id="r_linha" placeholder="Nome da linha" oninput="ac(this,'linhas','ac_r_linha')" onkeydown="acKey(event,'ac_r_linha')" autocomplete="off">
+        <input type="text" id="r_linha" placeholder="Nome da linha" oninput="ac(this,'linhas','ac_r_linha');autoSave()" onkeydown="acKey(event,'ac_r_linha')" autocomplete="off">
         <div class="ac-list" id="ac_r_linha"></div>
       </div>
       <div class="row2">
         <div class="field">
           <label>P. Anterior / Prefixo</label>
-          <input type="text" id="r_prefAnt" placeholder="Prefixo" oninput="ac(this,'prefixos','ac_r_prefAnt')" onkeydown="acKey(event,'ac_r_prefAnt')" autocomplete="off">
+          <input type="text" id="r_prefAnt" placeholder="Prefixo" oninput="ac(this,'prefixos','ac_r_prefAnt');autoSave()" onkeydown="acKey(event,'ac_r_prefAnt')" autocomplete="off">
           <div class="ac-list" id="ac_r_prefAnt"></div>
         </div>
-        <div class="field"><label>Às (hs)</label><input type="time" id="r_horAnt" value="07:00"></div>
+        <div class="field"><label>Às (hs)</label><input type="time" id="r_horAnt" value="07:00" onchange="autoSave()" oninput="autoSave()"></div>
       </div>
       <div class="row2">
         <div class="field">
           <label>P. Posterior / Prefixo</label>
-          <input type="text" id="r_prefPos" placeholder="Prefixo" oninput="ac(this,'prefixos','ac_r_prefPos')" onkeydown="acKey(event,'ac_r_prefPos')" autocomplete="off">
+          <input type="text" id="r_prefPos" placeholder="Prefixo" oninput="ac(this,'prefixos','ac_r_prefPos');autoSave()" onkeydown="acKey(event,'ac_r_prefPos')" autocomplete="off">
           <div class="ac-list" id="ac_r_prefPos"></div>
         </div>
-        <div class="field"><label>Às (hs)</label><input type="time" id="r_horPos" value="07:30"></div>
+        <div class="field"><label>Às (hs)</label><input type="time" id="r_horPos" value="07:30" onchange="autoSave()" oninput="autoSave()"></div>
       </div>
-      <div class="field"><label>Intervalo</label><input type="text" id="r_intervalo" placeholder="Ex: 30 minutos"></div>
-      <div class="field"><label>Motivo</label><textarea id="r_motivo" placeholder="Descreva o motivo..."></textarea></div>
+      <div class="field"><label>Intervalo</label><input type="text" id="r_intervalo" placeholder="Ex: 30 minutos" oninput="autoSave()"></div>
+      <div class="field"><label>Motivo</label><textarea id="r_motivo" placeholder="Descreva o motivo..." oninput="autoSave()"></textarea></div>
       <div class="field">
         <label>Informado por</label>
-        <select id="r_informado"></select>
+        <select id="r_informado" onchange="autoSave()"></select>
       </div>
       <div class="field">
         <label>Ciente</label>
-        <select id="r_ciente"></select>
+        <select id="r_ciente" onchange="autoSave()"></select>
       </div>
       <div class="field">
         <label>Operacional</label>
-       <input type="text" id="s_operacional" placeholder="Digite o nome do Operacional">
-</div>    </div>
+       <input type="text" id="s_operacional" placeholder="Digite o nome do Operacional" oninput="autoSave()">
+      </div>    </div>
   </div>
   <div class="err-msg" id="r_erro"></div>
   <button class="btn-gerar" onclick="gerarOcorrencia('realocado')">📄 GERAR OCORRÊNCIA</button>
@@ -339,34 +345,34 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
     <div class="card-body">
       <div class="field">
         <label>Linha</label>
-        <input type="text" id="p_linha" placeholder="Nome da linha" oninput="ac(this,'linhas','ac_p_linha')" onkeydown="acKey(event,'ac_p_linha')" autocomplete="off">
+        <input type="text" id="p_linha" placeholder="Nome da linha" oninput="ac(this,'linhas','ac_p_linha');autoSave()" onkeydown="acKey(event,'ac_p_linha')" autocomplete="off">
         <div class="ac-list" id="ac_p_linha"></div>
       </div>
       <div class="row2">
         <div class="field">
           <label>P. Anterior / Prefixo</label>
-          <input type="text" id="p_prefAnt" placeholder="Prefixo" oninput="ac(this,'prefixos','ac_p_prefAnt')" onkeydown="acKey(event,'ac_p_prefAnt')" autocomplete="off">
+          <input type="text" id="p_prefAnt" placeholder="Prefixo" oninput="ac(this,'prefixos','ac_p_prefAnt');autoSave()" onkeydown="acKey(event,'ac_p_prefAnt')" autocomplete="off">
           <div class="ac-list" id="ac_p_prefAnt"></div>
         </div>
-        <div class="field"><label>Às (hs)</label><input type="time" id="p_horAnt" value="07:00"></div>
+        <div class="field"><label>Às (hs)</label><input type="time" id="p_horAnt" value="07:00" onchange="autoSave()" oninput="autoSave()"></div>
       </div>
       <div class="row2">
         <div class="field">
           <label>P. Posterior / Prefixo</label>
-          <input type="text" id="p_prefPos" placeholder="Prefixo" oninput="ac(this,'prefixos','ac_p_prefPos')" onkeydown="acKey(event,'ac_p_prefPos')" autocomplete="off">
+          <input type="text" id="p_prefPos" placeholder="Prefixo" oninput="ac(this,'prefixos','ac_p_prefPos');autoSave()" onkeydown="acKey(event,'ac_p_prefPos')" autocomplete="off">
           <div class="ac-list" id="ac_p_prefPos"></div>
         </div>
-        <div class="field"><label>Às (hs)</label><input type="time" id="p_horPos" value="07:30"></div>
+        <div class="field"><label>Às (hs)</label><input type="time" id="p_horPos" value="07:30" onchange="autoSave()" oninput="autoSave()"></div>
       </div>
-      <div class="field"><label>Intervalo</label><input type="text" id="p_intervalo" placeholder="Ex: 45 minutos"></div>
-      <div class="field"><label>Motivo</label><textarea id="p_motivo" placeholder="Descreva o motivo..."></textarea></div>
+      <div class="field"><label>Intervalo</label><input type="text" id="p_intervalo" placeholder="Ex: 45 minutos" oninput="autoSave()"></div>
+      <div class="field"><label>Motivo</label><textarea id="p_motivo" placeholder="Descreva o motivo..." oninput="autoSave()"></textarea></div>
       <div class="field">
         <label>Informado pelo(a)</label>
-        <select id="p_informado"></select>
+        <select id="p_informado" onchange="autoSave()"></select>
       </div>
       <div class="field">
         <label>Ciente</label>
-        <select id="p_ciente"></select>
+        <select id="p_ciente" onchange="autoSave()"></select>
       </div>
     </div>
   </div>
@@ -395,26 +401,26 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
     <div class="card-body">
       <div class="field">
         <label>Linha</label>
-        <input type="text" id="a_linha" placeholder="Nome da linha" oninput="ac(this,'linhas','ac_a_linha')" onkeydown="acKey(event,'ac_a_linha')" autocomplete="off">
+        <input type="text" id="a_linha" placeholder="Nome da linha" oninput="ac(this,'linhas','ac_a_linha');autoSave()" onkeydown="acKey(event,'ac_a_linha')" autocomplete="off">
         <div class="ac-list" id="ac_a_linha"></div>
       </div>
-      <div class="field"><label>Avaria</label><textarea id="a_avaria" placeholder="Descreva a avaria..."></textarea></div>
+      <div class="field"><label>Avaria</label><textarea id="a_avaria" placeholder="Descreva a avaria..." oninput="autoSave()"></textarea></div>
       <div class="row2">
-        <div class="field"><label>Horário</label><input type="time" id="a_horario" value="07:00"></div>
+        <div class="field"><label>Horário</label><input type="time" id="a_horario" value="07:00" onchange="autoSave()" oninput="autoSave()"></div>
         <div class="field">
           <label>Prefixo</label>
-          <input type="text" id="a_prefixo" placeholder="Ex: 1234" oninput="ac(this,'prefixos','ac_a_prefixo')" onkeydown="acKey(event,'ac_a_prefixo')" autocomplete="off">
+          <input type="text" id="a_prefixo" placeholder="Ex: 1234" oninput="ac(this,'prefixos','ac_a_prefixo');autoSave()" onkeydown="acKey(event,'ac_a_prefixo')" autocomplete="off">
           <div class="ac-list" id="ac_a_prefixo"></div>
         </div>
       </div>
-      <div class="field"><label>Placa</label><input type="text" id="a_placa" placeholder="Ex: ABC-1234" style="text-transform:uppercase"></div>
+      <div class="field"><label>Placa</label><input type="text" id="a_placa" placeholder="Ex: ABC-1234" style="text-transform:uppercase" oninput="autoSave()"></div>
       <div class="row2">
-        <div class="field"><label>Motorista</label><input type="text" id="a_motorista" placeholder="Nome"></div>
-        <div class="field"><label>Matrícula Motorista</label><input type="text" id="a_matMotorista" placeholder="Matrícula"></div>
+        <div class="field"><label>Motorista</label><input type="text" id="a_motorista" placeholder="Nome" oninput="autoSave()"></div>
+        <div class="field"><label>Matrícula Motorista</label><input type="text" id="a_matMotorista" placeholder="Matrícula" oninput="autoSave()"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>Cobrador</label><input type="text" id="a_cobrador" placeholder="Nome"></div>
-        <div class="field"><label>Matrícula Cobrador</label><input type="text" id="a_matCobrador" placeholder="Matrícula"></div>
+        <div class="field"><label>Cobrador</label><input type="text" id="a_cobrador" placeholder="Nome" oninput="autoSave()"></div>
+        <div class="field"><label>Matrícula Cobrador</label><input type="text" id="a_matCobrador" placeholder="Matrícula" oninput="autoSave()"></div>
       </div>
     </div>
   </div>
@@ -425,20 +431,20 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
       <div class="row2">
         <div class="field">
           <label>Prefixo S.O.S</label>
-          <input type="text" id="s_prefixo" placeholder="Ex: 9999" oninput="ac(this,'prefixos','ac_s_prefixo')" onkeydown="acKey(event,'ac_s_prefixo')" autocomplete="off">
+          <input type="text" id="s_prefixo" placeholder="Ex: 9999" oninput="ac(this,'prefixos','ac_s_prefixo');autoSave()" onkeydown="acKey(event,'ac_s_prefixo')" autocomplete="off">
           <div class="ac-list" id="ac_s_prefixo"></div>
         </div>
-        <div class="field"><label>Placa S.O.S</label><input type="text" id="s_placa" placeholder="Ex: XYZ-5678" style="text-transform:uppercase"></div>
+        <div class="field"><label>Placa S.O.S</label><input type="text" id="s_placa" placeholder="Ex: XYZ-5678" style="text-transform:uppercase" oninput="autoSave()"></div>
       </div>
       <div class="field">
         <label>Mecânico Responsável</label>
-        <input type="text" id="s_mecanico" placeholder="Digite o nome do mecânico">
-	</div>
-      <div class="row2">
-        <div class="field"><label>Matrícula Mecânico</label><input type="text" id="s_matMecanico" placeholder="Matrícula"></div>
-        <div class="field"><label>Chegada</label><input type="time" id="s_chegada" value="07:00"></div>
+        <input type="text" id="s_mecanico" placeholder="Digite o nome do mecânico" oninput="autoSave()">
       </div>
-      <div class="field"><label>Observações</label><textarea id="s_obs" placeholder="Observações adicionais..."></textarea></div>
+      <div class="row2">
+        <div class="field"><label>Matrícula Mecânico</label><input type="text" id="s_matMecanico" placeholder="Matrícula" oninput="autoSave()"></div>
+        <div class="field"><label>Chegada</label><input type="time" id="s_chegada" value="07:00" onchange="autoSave()" oninput="autoSave()"></div>
+      </div>
+      <div class="field"><label>Observações</label><textarea id="s_obs" placeholder="Observações adicionais..." oninput="autoSave()"></textarea></div>
     </div>
   </div>
 
@@ -460,7 +466,13 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
   </div>
 </div>
 
+<!-- Botão Limpar Tudo -->
+<button class="limpar-tudo-btn" onclick="limparTudoRascunho()">🗑️ LIMPAR TODOS OS RASCUNHOS</button>
+
 </div><!-- /container -->
+
+<!-- Indicador de rascunho salvo -->
+<div id="draftIndicator" class="draft-indicator">💾 Rascunho salvo</div>
 
 <script>
 // ══════════════════════════════════════════════
@@ -710,14 +722,13 @@ const DB = {
     'N638-11 Unisa Campos',
     'N635-11 Jd.Gaivotas'
   ],
-  //prefixos: ['', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+  prefixos: [], // Será preenchido automaticamente com sugestões baseadas nas entradas do usuário
   encarregados: [
     'E.T Alex Sandro Tavares Gomes, RE:5',
     'E.T Rhaone Santos De Lima, RE:111',
     'E.T Rafael Rocha Da Silva, RE:208',
-	'E.T Rafael Simeão Da Silva, RE:209',
+    'E.T Rafael Simeão Da Silva, RE:209',
     'E.T Willian Silva Lima, RE:45',
-//C.A.M´s
     'C.A.M Adriana Do Nascimento Souza, RE:17',
     'C.A.M Aline Camargo De Andrade, RE:20',
     'C.A.M Alessandro Gonçalves Bandeira, RE:16',
@@ -740,12 +751,11 @@ const DB = {
     'C.A.M Lucas Soares Frreira, RE:92',
     'C.A.M Maria Erlane De Castro Brandão, RE:203',
     'C.A.M Maria Quitéria Lima Nascimento, RE:212',
-	'C.A.M Ronei Silva Lima, RE:106',
+    'C.A.M Ronei Silva Lima, RE:106',
     'C.A.M Raquel Ferreira De Oliveira, RE:210',
     'C.A.M Tadeu De Farias, RE:204',
     'C.A.M Wendel Ruan Costa Da Silva, RE:256',
     'C.A.M Wilson Marchena Lopes Junior, RE:207',
-//O.T.U´s
     'O.T.U Alessandra Da Cruz Santos, RE:396',
     'O.T.U Alessandro Souza Lopes, RE:217',
     'O.T.U Almir Landra, RE:51',
@@ -785,15 +795,154 @@ const DB = {
     'O.T.U Wesley Silva Barbosa, RE:274'
   ],
   cops: ['Caetano'],
-  operacionais: [
-    // ⚠️ ADICIONE AQUI OS NOMES DOS OPERACIONAIS
-    // Exemplo: 'Operacional João Silva', 'Operacional Maria Santos'
-  ],
-  mecanicos: [
-    // ⚠️ ADICIONE AQUI OS NOMES DOS MECÂNICOS
-    // Exemplo: 'Mecânico José', 'Mecânico Carlos'
-  ],
+  operacionais: [],
+  mecanicos: [],
 };
+
+// ══════════════════════════════════════════════
+// SISTEMA DE RASCUNHO (AUTOSAVE)
+// ══════════════════════════════════════════════
+
+// Lista de todos os campos que serão salvos
+const camposParaSalvar = [
+  // Intervalo
+  'i_linha', 'i_prefAnt', 'i_prefPos', 'i_et', 's_cop', 'i_horAnt', 'i_horPos', 'i_motivo', 'i_freqCustom',
+  // Realocado
+  'r_linha', 'r_prefAnt', 'r_horAnt', 'r_prefPos', 'r_horPos', 'r_intervalo', 'r_motivo', 'r_informado', 'r_ciente', 's_operacional',
+  // Perca
+  'p_linha', 'p_prefAnt', 'p_horAnt', 'p_prefPos', 'p_horPos', 'p_intervalo', 'p_motivo', 'p_informado', 'p_ciente',
+  // Avaria
+  'a_linha', 'a_avaria', 'a_horario', 'a_prefixo', 'a_placa', 'a_motorista', 'a_matMotorista', 'a_cobrador', 'a_matCobrador',
+  's_prefixo', 's_placa', 's_mecanico', 's_matMecanico', 's_chegada', 's_obs'
+];
+
+// Salvar rascunho
+function salvarRascunho() {
+  const dados = {};
+  for (const campo of camposParaSalvar) {
+    const el = document.getElementById(campo);
+    if (el) {
+      dados[campo] = el.value;
+    }
+  }
+  // Salvar também a frequência selecionada
+  dados['frequenciaSelecionada'] = freqSel;
+  dados['frequenciaCustom'] = document.getElementById('i_freqCustom')?.value || '';
+  
+  localStorage.setItem('ocorrenciasRascunho', JSON.stringify(dados));
+  
+  // Mostrar indicador
+  const indicator = document.getElementById('draftIndicator');
+  indicator.classList.add('show');
+  setTimeout(() => indicator.classList.remove('show'), 1500);
+}
+
+// Carregar rascunho
+function carregarRascunho() {
+  const salvo = localStorage.getItem('ocorrenciasRascunho');
+  if (!salvo) return;
+  
+  try {
+    const dados = JSON.parse(salvo);
+    for (const [campo, valor] of Object.entries(dados)) {
+      if (campo === 'frequenciaSelecionada') {
+        // Restaurar frequência
+        if (valor && valor !== 10) {
+          // Verificar se é uma das opções padrão
+          const btnPadrao = [10, 15, 20].indexOf(valor);
+          if (btnPadrao !== -1) {
+            const btns = document.querySelectorAll('.freq-btn');
+            if (btns[btnPadrao]) {
+              selFreq(valor, btns[btnPadrao]);
+            }
+          } else {
+            // Frequência customizada
+            freqSel = valor;
+            const tag = document.getElementById('i_customTag');
+            tag.style.display = 'inline-flex';
+            tag.innerHTML = `⏱ ${valor} min selecionado <span class="remove-tag" onclick="resetCustomFreq()">✕</span>`;
+            document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('active'));
+          }
+        }
+      } else if (campo === 'frequenciaCustom') {
+        const freqCustom = document.getElementById('i_freqCustom');
+        if (freqCustom && valor) freqCustom.value = valor;
+      } else {
+        const el = document.getElementById(campo);
+        if (el && valor !== undefined && valor !== null) {
+          el.value = valor;
+        }
+      }
+    }
+    console.log('✅ Rascunho carregado com sucesso!');
+  } catch (e) {
+    console.error('Erro ao carregar rascunho:', e);
+  }
+}
+
+// Limpar rascunho
+function limparRascunho() {
+  localStorage.removeItem('ocorrenciasRascunho');
+}
+
+// Limpar todos os campos e o rascunho
+function limparTudoRascunho() {
+  if (confirm('⚠️ Isso apagará TODOS os dados preenchidos em TODAS as abas. Deseja continuar?')) {
+    // Limpar todos os campos
+    for (const campo of camposParaSalvar) {
+      const el = document.getElementById(campo);
+      if (el) {
+        if (el.tagName === 'SELECT') {
+          el.selectedIndex = 0;
+        } else {
+          el.value = '';
+        }
+      }
+    }
+    // Resetar valores padrão de time
+    set2('i_horAnt', '07:30');
+    set2('i_horPos', '08:15');
+    set2('r_horAnt', '07:00');
+    set2('r_horPos', '07:30');
+    set2('p_horAnt', '07:00');
+    set2('p_horPos', '07:30');
+    set2('a_horario', '07:00');
+    set2('s_chegada', '07:00');
+    
+    // Resetar frequência
+    resetCustomFreq();
+    
+    // Limpar rascunho do storage
+    limparRascunho();
+    
+    // Esconder resultados e ocorrências
+    hide('i_resultado');
+    hide('i_ocWrap');
+    hide('r_ocWrap');
+    hide('p_ocWrap');
+    hide('a_ocWrap');
+    
+    // Feedback visual
+    const indicator = document.getElementById('draftIndicator');
+    indicator.textContent = '🗑️ Rascunho limpo!';
+    indicator.classList.add('show');
+    setTimeout(() => {
+      indicator.classList.remove('show');
+      indicator.textContent = '💾 Rascunho salvo';
+    }, 2000);
+    
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+}
+
+// Auto-save (debounced)
+let timeoutSave;
+function autoSave() {
+  clearTimeout(timeoutSave);
+  timeoutSave = setTimeout(() => {
+    salvarRascunho();
+  }, 800); // Salva 800ms após a última digitação
+}
 
 // ══════════════════════════════════════════════
 
@@ -807,15 +956,46 @@ function buildSelect(id, lista, placeholder) {
 
 function buildAllSelects() {
   buildSelect('i_et',         'encarregados', 'Selecione o funcionario');
-  buildSelect('i_cop',        'cops',         'Selecione o COP');
   buildSelect('r_informado',  'encarregados', 'Selecione');
   buildSelect('r_ciente',     'encarregados', 'Selecione');
-  buildSelect('r_operacional','operacionais', 'Selecione o operacional');
   buildSelect('p_informado',  'encarregados', 'Selecione');
   buildSelect('p_ciente',     'encarregados', 'Selecione');
-  buildSelect('s_mecanico',   'mecanicos',    'Selecione o mecânico');
 }
 buildAllSelects();
+
+// Atualizar prefixos baseado no histórico do usuário (aprendizado)
+let prefixosColetados = [];
+function atualizarPrefixos(prefixo) {
+  if (!prefixo || prefixo.trim() === '') return;
+  if (!prefixosColetados.includes(prefixo.trim())) {
+    prefixosColetados.push(prefixo.trim());
+    // Manter apenas os últimos 50 prefixos
+    if (prefixosColetados.length > 50) prefixosColetados.shift();
+    DB.prefixos = [...prefixosColetados];
+    // Salvar no localStorage
+    localStorage.setItem('prefixosHistorico', JSON.stringify(prefixosColetados));
+  }
+}
+
+// Carregar histórico de prefixos
+function carregarHistoricoPrefixos() {
+  const historico = localStorage.getItem('prefixosHistorico');
+  if (historico) {
+    try {
+      prefixosColetados = JSON.parse(historico);
+      DB.prefixos = [...prefixosColetados];
+    } catch(e) {}
+  }
+}
+
+// Sobrescrever os oninput para capturar prefixos
+const originalAc = ac;
+window.ac = function(input, lista, listId) {
+  if (lista === 'prefixos' && input.value.trim()) {
+    atualizarPrefixos(input.value);
+  }
+  originalAc(input, lista, listId);
+};
 
 // ── AUTOCOMPLETE (linhas e prefixos) ──────────────────────────────────
 let acHl = {};
@@ -823,7 +1003,12 @@ function ac(input, lista, listId) {
   const val = input.value.trim().toLowerCase();
   const el = document.getElementById(listId);
   if (!val) { el.style.display='none'; return; }
-  const matches = DB[lista].filter(x => x.toLowerCase().includes(val));
+  let sourceList = DB[lista];
+  if (!sourceList || sourceList.length === 0) {
+    if (lista === 'prefixos') sourceList = [];
+    else return;
+  }
+  const matches = sourceList.filter(x => x && x.toLowerCase().includes(val));
   if (!matches.length) { el.style.display='none'; return; }
   acHl[listId] = -1;
   el.innerHTML = matches.map(m =>
@@ -837,6 +1022,8 @@ function acSel(listId, val, e) {
   const inp = document.getElementById(inputId);
   if (inp) inp.value = val;
   document.getElementById(listId).style.display = 'none';
+  if (inputId.includes('pref')) atualizarPrefixos(val);
+  autoSave();
 }
 function acKey(e, listId) {
   const el = document.getElementById(listId);
@@ -867,6 +1054,7 @@ function selFreq(val, el) {
   el.classList.add('active');
   document.getElementById('i_customTag').style.display='none';
   document.getElementById('i_freqCustom').value='';
+  autoSave();
 }
 function selCustomFreq() {
   const input = document.getElementById('i_freqCustom');
@@ -879,11 +1067,14 @@ function selCustomFreq() {
   tag.innerHTML=`⏱ ${val} min selecionado <span class="remove-tag" onclick="resetCustomFreq()">✕</span>`;
   input.value='';
   hideErr('i_erro');
+  autoSave();
 }
 function resetCustomFreq() {
   freqSel=10;
   document.getElementById('i_customTag').style.display='none';
   document.querySelectorAll('.freq-btn')[0].classList.add('active');
+  document.getElementById('i_freqCustom').value='';
+  autoSave();
 }
 
 // ── ERROS ─────────────────────────────────────────────────────────────
@@ -1052,16 +1243,11 @@ function copiarTexto(txtId, fbId) {
     return;
   }
   
-  // Método moderno (clipboard API)
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(texto)
       .then(() => fb(fbId, '✅ Texto copiado!'))
-      .catch(() => {
-        // Fallback para método alternativo
-        fallbackCopiarTexto(texto, fbId);
-      });
+      .catch(() => fallbackCopiarTexto(texto, fbId));
   } else {
-    // Fallback para navegadores antigos
     fallbackCopiarTexto(texto, fbId);
   }
 }
@@ -1101,21 +1287,24 @@ function fb(id,msg){ const el=document.getElementById(id); el.textContent=msg; s
 function limpar(tipo) {
   if (tipo==='intervalo') {
     ['i_linha','i_prefAnt','i_prefPos','i_motivo'].forEach(clr);
-    set2('i_et',''); set2('i_cop','');
+    set2('i_et',''); set2('s_cop','');
     set2('i_horAnt','07:30'); set2('i_horPos','08:15');
     hide('i_resultado'); hide('i_ocWrap'); hideErr('i_erro'); resetCustomFreq();
+    autoSave();
   }
   if (tipo==='realocado') {
     ['r_linha','r_prefAnt','r_prefPos','r_intervalo','r_motivo'].forEach(clr);
-    set2('r_informado',''); set2('r_ciente',''); set2('r_operacional','');
+    set2('r_informado',''); set2('r_ciente',''); set2('s_operacional','');
     set2('r_horAnt','07:00'); set2('r_horPos','07:30');
     hide('r_ocWrap'); hideErr('r_erro');
+    autoSave();
   }
   if (tipo==='perca') {
     ['p_linha','p_prefAnt','p_prefPos','p_intervalo','p_motivo'].forEach(clr);
     set2('p_informado',''); set2('p_ciente','');
     set2('p_horAnt','07:00'); set2('p_horPos','07:30');
     hide('p_ocWrap'); hideErr('p_erro');
+    autoSave();
   }
   if (tipo==='avaria') {
     ['a_linha','a_avaria','a_prefixo','a_placa','a_motorista','a_matMotorista','a_cobrador','a_matCobrador',
@@ -1123,9 +1312,24 @@ function limpar(tipo) {
     set2('s_mecanico','');
     set2('a_horario','07:00'); set2('s_chegada','07:00');
     hide('a_ocWrap'); hideErr('a_erro');
+    autoSave();
   }
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// Inicialização: carregar histórico e rascunho
+carregarHistoricoPrefixos();
+carregarRascunho();
+
+// Salvar rascunho antes de fechar a página
+window.addEventListener('beforeunload', () => {
+  salvarRascunho();
+});
+
+// Salvar também quando perder o foco (opcional)
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) salvarRascunho();
+});
 </script>
 </body>
 </html>
