@@ -134,6 +134,50 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
 .draft-indicator.show{opacity:1}
 .limpar-tudo-btn{width:100%;margin-top:20px;margin-bottom:10px;padding:12px;background:rgba(192,57,43,.15);border:2px solid #c0392b;border-radius:9px;color:#c0392b;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s}
 .limpar-tudo-btn:hover{background:rgba(192,57,43,.25)}
+
+/* ── ADMIN ── */
+.admin-fab{position:fixed;bottom:22px;left:20px;width:44px;height:44px;border-radius:50%;background:var(--navy);border:2px solid var(--accent);color:var(--accent);font-size:1.2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:999;box-shadow:0 2px 12px rgba(0,0,0,.3);transition:transform .2s}
+.admin-fab:active{transform:scale(.92)}
+
+/* Modal overlay */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:2000;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:16px;width:100%;max-width:420px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.4)}
+.modal-head{background:linear-gradient(135deg,#0f2340,#1a4f8a);padding:16px 18px;display:flex;align-items:center;justify-content:space-between}
+.modal-head h2{font-family:'Bebas Neue',cursive;font-size:1.1rem;color:#fff;letter-spacing:1px}
+.modal-close{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.4rem;cursor:pointer;line-height:1;padding:2px 6px}
+.modal-body{padding:20px;overflow-y:auto;flex:1}
+
+/* Login */
+.login-form{display:flex;flex-direction:column;gap:12px}
+.login-form label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px;display:block}
+.login-err{background:#fff0f0;border:2px solid #e74c3c;color:#c0392b;border-radius:9px;padding:10px 14px;font-size:.83rem;font-weight:600;display:none}
+.btn-login{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--gold));color:var(--navy);border:none;border-radius:10px;font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:1.5px;cursor:pointer;margin-top:4px}
+.btn-login:active{transform:scale(.97)}
+
+/* Painel admin */
+.admin-panel{display:none}
+.admin-section{margin-bottom:18px}
+.admin-section-title{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px}
+.func-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;margin-bottom:10px}
+.func-item{display:flex;align-items:center;justify-content:space-between;background:var(--light);border-radius:8px;padding:9px 12px;font-size:.85rem;font-weight:600;color:var(--text)}
+.func-item .func-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-del{background:#c0392b;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700;cursor:pointer;flex-shrink:0;margin-left:8px}
+.btn-del:active{opacity:.8}
+.add-func-row{display:flex;gap:8px}
+.add-func-row input{flex:1;padding:11px 13px;border:2px solid #dde3ec;border-radius:9px;font-size:.9rem;font-family:'DM Sans',sans-serif;font-weight:600;color:var(--text);background:var(--light)}
+.add-func-row input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(245,166,35,.2);background:#fff}
+.btn-add{padding:11px 14px;background:var(--navy);color:var(--accent);border:none;border-radius:9px;font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;white-space:nowrap}
+.btn-add:active{transform:scale(.96)}
+.admin-fb{text-align:center;font-size:.78rem;font-weight:700;color:var(--green);min-height:16px;margin-top:6px}
+.btn-logout{width:100%;padding:10px;background:transparent;border:2px solid rgba(192,57,43,.5);border-radius:9px;color:#c0392b;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;margin-top:6px}
+.admin-tabs-nav{display:flex;gap:6px;margin-bottom:14px}
+.admin-tab-btn{flex:1;padding:8px;border:2px solid #dde3ec;border-radius:8px;background:var(--light);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all .18s}
+.admin-tab-btn.active{background:var(--navy);border-color:var(--navy);color:var(--accent)}
+.admin-tab-content{display:none}.admin-tab-content.active{display:block}
+.func-cargo{font-size:.68rem;color:var(--muted);font-weight:500;display:block;margin-top:1px}
+.cargo-select{width:100%;padding:10px 13px;border:2px solid #dde3ec;border-radius:9px;font-size:.88rem;font-family:'DM Sans',sans-serif;font-weight:600;color:var(--text);background:var(--light);margin-bottom:8px;-webkit-appearance:none;cursor:pointer}
+.cargo-select:focus{outline:none;border-color:var(--accent)}
 </style>
 </head>
 <body>
@@ -142,6 +186,124 @@ input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none}
   <span class="bus-icon">🚌</span>
   <h1>Sistema de Ocorrências</h1>
   <p>Gestão Operacional de Transporte</p>
+</div>
+
+<!-- Botão flutuante Admin -->
+<button class="admin-fab" onclick="abrirAdmin()" title="Painel Admin">⚙️</button>
+
+<!-- Modal Admin -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 id="modalTitle">🔐 Acesso Admin</h2>
+      <button class="modal-close" onclick="fecharAdmin()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Tela de Login -->
+      <div id="loginScreen">
+        <div class="login-form">
+          <div>
+            <label>Senha</label>
+            <input type="password" id="adminSenha" placeholder="Digite a senha admin"
+              style="width:100%;padding:12px 14px;border:2px solid #dde3ec;border-radius:9px;font-size:.95rem;font-family:'DM Sans',sans-serif;font-weight:600;color:#1a2840;background:#f0f5fb"
+              onkeydown="if(event.key==='Enter')fazerLogin()">
+          </div>
+          <div class="login-err" id="loginErr">❌ Senha incorreta</div>
+          <button class="btn-login" onclick="fazerLogin()">ENTRAR</button>
+        </div>
+      </div>
+
+      <!-- Painel Admin -->
+      <div id="adminPanel" class="admin-panel">
+        <div class="admin-tabs-nav">
+          <button class="admin-tab-btn active" onclick="switchAdminTab('et')">ET / CAM / OTU</button>
+          <button class="admin-tab-btn" onclick="switchAdminTab('linhas')">Linhas</button>
+          <button class="admin-tab-btn" onclick="switchAdminTab('senha')">Senha</button>
+        </div>
+
+        <!-- Tab: Funcionários -->
+        <div class="admin-tab-content active" id="atab-et">
+          <div class="admin-section">
+            <div class="admin-section-title">Adicionar Funcionário</div>
+            <select class="cargo-select" id="novoFuncCargo">
+              <option value="E.T">E.T — Encarregado de Terminal</option>
+              <option value="C.A.M">C.A.M — Controlador</option>
+              <option value="O.T.U">O.T.U — Operador</option>
+            </select>
+            <div class="add-func-row">
+              <input type="text" id="novoFuncNome" placeholder="Nome completo, RE:000">
+              <button class="btn-add" onclick="adicionarFuncionario()">+ ADD</button>
+            </div>
+            <div class="admin-fb" id="funcFb"></div>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">Funcionários cadastrados (<span id="funcCount">0</span>)</div>
+            <div class="func-list" id="funcList"></div>
+          </div>
+        </div>
+
+        <!-- Tab: Linhas -->
+        <div class="admin-tab-content" id="atab-linhas">
+          <div class="admin-section">
+            <div class="admin-section-title">Terminal</div>
+            <select class="cargo-select" id="terminalFiltro" onchange="renderLinhasList()">
+              <option value="Capelinha">Capelinha</option>
+              <option value="João Dias">João Dias</option>
+              <option value="Guarapiranga">Guarapiranga</option>
+              <option value="Parelheiros">Parelheiros</option>
+              <option value="Estação Varginha">Estação Varginha</option>
+              <option value="Bandeira">Bandeira</option>
+              <option value="Jardim Ângela">Jardim Ângela</option>
+              <option value="Santo Amaro">Santo Amaro</option>
+              <option value="Grajaú">Grajaú</option>
+            </select>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">Adicionar linha</div>
+            <div class="add-func-row">
+              <input type="text" id="novaLinhaNome" placeholder="Ex: 6001-10 Terminal Centro">
+              <button class="btn-add" onclick="adicionarLinha()">+ ADD</button>
+            </div>
+            <div class="admin-fb" id="linhaFb"></div>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">Linhas do terminal (<span id="linhaCount">0</span>)</div>
+            <div class="func-list" id="linhaList"></div>
+          </div>
+        </div>
+
+        <!-- Tab: Alterar Senha -->
+        <div class="admin-tab-content" id="atab-senha">
+          <div class="admin-section">
+            <div class="admin-section-title">Alterar senha admin</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div>
+                <label style="display:block;font-size:.72rem;font-weight:700;color:#6b7a90;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px">Senha Atual</label>
+                <input type="password" id="senhaAtual" placeholder="Senha atual"
+                  style="width:100%;padding:11px 13px;border:2px solid #dde3ec;border-radius:9px;font-size:.9rem;font-family:'DM Sans',sans-serif;font-weight:600;background:#f0f5fb;color:#1a2840">
+              </div>
+              <div>
+                <label style="display:block;font-size:.72rem;font-weight:700;color:#6b7a90;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px">Nova Senha</label>
+                <input type="password" id="senhaNova" placeholder="Nova senha"
+                  style="width:100%;padding:11px 13px;border:2px solid #dde3ec;border-radius:9px;font-size:.9rem;font-family:'DM Sans',sans-serif;font-weight:600;background:#f0f5fb;color:#1a2840">
+              </div>
+              <div>
+                <label style="display:block;font-size:.72rem;font-weight:700;color:#6b7a90;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px">Confirmar Nova Senha</label>
+                <input type="password" id="senhaConfirm" placeholder="Confirme a nova senha"
+                  style="width:100%;padding:11px 13px;border:2px solid #dde3ec;border-radius:9px;font-size:.9rem;font-family:'DM Sans',sans-serif;font-weight:600;background:#f0f5fb;color:#1a2840">
+              </div>
+              <button class="btn-login" onclick="alterarSenha()">SALVAR SENHA</button>
+              <div class="admin-fb" id="senhaFb"></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-logout" onclick="fazerLogout()">↩ Sair do painel</button>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <div class="tabs-wrap">
@@ -1335,6 +1497,482 @@ window.addEventListener('beforeunload', () => {
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) salvarRascunho();
 });
+
+// ══════════════════════════════════════════════
+// SISTEMA ADMIN
+// ══════════════════════════════════════════════
+
+const ADMIN_KEY        = 'admin_senha';
+const FUNC_KEY         = 'admin_funcionarios';
+const SESSION_KEY      = 'admin_sessao';
+const SENHA_PADRAO     = 'admin123';
+
+// Retorna a senha salva ou a padrão
+function getSenha() {
+  return localStorage.getItem(ADMIN_KEY) || SENHA_PADRAO;
+}
+
+// Retorna lista de funcionários (merge: DB fixo + cadastrados)
+function getFuncionarios() {
+  const salvos = localStorage.getItem(FUNC_KEY);
+  return salvos ? JSON.parse(salvos) : [];
+}
+
+function salvarFuncionarios(lista) {
+  localStorage.setItem(FUNC_KEY, JSON.stringify(lista));
+  // Atualizar DB em memória e rebuildar selects
+  const fixos  = DB.encarregados; // mantém os hardcoded originais
+  const extras = lista;
+  // Mescla sem duplicatas
+  const todos  = [...new Set([...fixos, ...extras.map(f => f.label)])];
+  DB.encarregados = todos;
+  buildAllSelects();
+}
+
+// Sessão simples (expira ao fechar o navegador)
+function isLogado() {
+  return sessionStorage.getItem(SESSION_KEY) === '1';
+}
+function logar()   { sessionStorage.setItem(SESSION_KEY, '1'); }
+function deslogar(){ sessionStorage.removeItem(SESSION_KEY); }
+
+// Abre o modal
+function abrirAdmin() {
+  document.getElementById('adminModal').classList.add('open');
+  if (isLogado()) {
+    mostrarPainel();
+  } else {
+    mostrarLogin();
+  }
+}
+
+function fecharAdmin() {
+  document.getElementById('adminModal').classList.remove('open');
+  document.getElementById('adminSenha').value = '';
+  document.getElementById('loginErr').style.display = 'none';
+}
+
+function mostrarLogin() {
+  document.getElementById('loginScreen').style.display = 'block';
+  document.getElementById('adminPanel').style.display  = 'none';
+  document.getElementById('modalTitle').textContent    = '🔐 Acesso Admin';
+  setTimeout(() => document.getElementById('adminSenha').focus(), 100);
+}
+
+function mostrarPainel() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminPanel').style.display  = 'block';
+  document.getElementById('modalTitle').textContent    = '⚙️ Painel Admin';
+  renderFuncList();
+}
+
+function fazerLogin() {
+  const senha = document.getElementById('adminSenha').value;
+  if (senha === getSenha()) {
+    logar();
+    document.getElementById('adminSenha').value = '';
+    document.getElementById('loginErr').style.display = 'none';
+    mostrarPainel();
+  } else {
+    const err = document.getElementById('loginErr');
+    err.style.display = 'block';
+    document.getElementById('adminSenha').value = '';
+    document.getElementById('adminSenha').focus();
+    setTimeout(() => err.style.display = 'none', 3000);
+  }
+}
+
+function fazerLogout() {
+  deslogar();
+  fecharAdmin();
+}
+
+// ── Tabs do painel admin ──
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick').includes(`'${tab}'`));
+  });
+  document.querySelectorAll('.admin-tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('atab-' + tab).classList.add('active');
+  if (tab === 'linhas') renderLinhasList();
+}
+
+// Chave para fixos removidos pelo admin
+const REMOVIDOS_KEY = 'admin_removidos';
+function getRemovidosFixos() {
+  const s = localStorage.getItem(REMOVIDOS_KEY);
+  return s ? JSON.parse(s) : [];
+}
+function salvarRemovidosFixos(lista) {
+  localStorage.setItem(REMOVIDOS_KEY, JSON.stringify(lista));
+}
+
+// ── Renderizar lista de funcionários ──
+function renderFuncList() {
+  const extras    = getFuncionarios();
+  const removidos = getRemovidosFixos();
+
+  // Fixos originais ainda ativos
+  const fixosAtivos = DB_FIXOS_ORIGINAL
+    .filter(l => !removidos.includes(l))
+    .map(label => ({ label, fixo: true }));
+
+  // Cadastrados pelo admin
+  const extrasAtivos = extras.map(f => ({ ...f, fixo: false }));
+
+  const todos = [...extrasAtivos, ...fixosAtivos];
+
+  document.getElementById('funcCount').textContent = todos.length;
+  const list = document.getElementById('funcList');
+
+  if (todos.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:#aaa;font-size:.85rem;padding:12px">Nenhum funcionário cadastrado</div>';
+    return;
+  }
+
+  list.innerHTML = todos.map(f => {
+    const labelEsc = f.label.replace(/'/g, "&apos;");
+    return `<div class="func-item">
+      <div class="func-name">
+        ${f.label}
+        ${f.fixo
+          ? '<span class="func-cargo">padrão</span>'
+          : '<span class="func-cargo" style="color:#1a7a3c">cadastrado</span>'}
+      </div>
+      <button class="btn-del" onclick="deletarFuncionario('${labelEsc}',${f.fixo})">✕</button>
+    </div>`;
+  }).join('');
+}
+
+// ── Adicionar funcionário ──
+function adicionarFuncionario() {
+  const cargo = document.getElementById('novoFuncCargo').value;
+  const nome  = document.getElementById('novoFuncNome').value.trim();
+  const fb    = document.getElementById('funcFb');
+
+  if (!nome) {
+    fb.style.color = '#c0392b';
+    fb.textContent = '⚠️ Preencha o nome do funcionário';
+    setTimeout(() => fb.textContent = '', 2500);
+    return;
+  }
+
+  const label = `${cargo} ${nome}`;
+
+  // Verificar duplicata
+  const removidos = getRemovidosFixos();
+  const todos = [
+    ...getFuncionarios().map(f => f.label),
+    ...DB_FIXOS_ORIGINAL.filter(l => !removidos.includes(l))
+  ];
+  if (todos.includes(label)) {
+    fb.style.color = '#c0392b';
+    fb.textContent = '⚠️ Funcionário já cadastrado';
+    setTimeout(() => fb.textContent = '', 2500);
+    return;
+  }
+
+  const extras = getFuncionarios();
+  extras.push({ label });
+  salvarFuncionarios(extras);
+
+  document.getElementById('novoFuncNome').value = '';
+  fb.style.color = '#1a7a3c';
+  fb.textContent = '✅ Funcionário adicionado!';
+  setTimeout(() => fb.textContent = '', 2500);
+  renderFuncList();
+}
+
+// ── Deletar funcionário ──
+function deletarFuncionario(label, ehFixo) {
+  label = label.replace(/&apos;/g, "'");
+  if (!confirm(`Remover "${label}"?`)) return;
+
+  if (ehFixo) {
+    // Adiciona à lista de fixos removidos
+    const removidos = getRemovidosFixos();
+    if (!removidos.includes(label)) removidos.push(label);
+    salvarRemovidosFixos(removidos);
+  } else {
+    // Remove dos extras
+    const extras = getFuncionarios().filter(f => f.label !== label);
+    salvarFuncionarios(extras);
+  }
+
+  // Remover do DB em memória
+  DB.encarregados = DB.encarregados.filter(e => e !== label);
+  buildAllSelects();
+  renderFuncList();
+
+  const fb = document.getElementById('funcFb');
+  fb.style.color = '#c0392b';
+  fb.textContent = '🗑️ Funcionário removido';
+  setTimeout(() => fb.textContent = '', 2500);
+}
+
+// ── Alterar senha ──
+function alterarSenha() {
+  const atual    = document.getElementById('senhaAtual').value;
+  const nova     = document.getElementById('senhaNova').value;
+  const confirm  = document.getElementById('senhaConfirm').value;
+  const fb       = document.getElementById('senhaFb');
+
+  if (atual !== getSenha()) {
+    fb.style.color = '#c0392b';
+    fb.textContent = '❌ Senha atual incorreta';
+    setTimeout(() => fb.textContent = '', 3000);
+    return;
+  }
+  if (!nova || nova.length < 4) {
+    fb.style.color = '#c0392b';
+    fb.textContent = '❌ Nova senha muito curta (mín. 4 caracteres)';
+    setTimeout(() => fb.textContent = '', 3000);
+    return;
+  }
+  if (nova !== confirm) {
+    fb.style.color = '#c0392b';
+    fb.textContent = '❌ As senhas não coincidem';
+    setTimeout(() => fb.textContent = '', 3000);
+    return;
+  }
+
+  localStorage.setItem(ADMIN_KEY, nova);
+  document.getElementById('senhaAtual').value  = '';
+  document.getElementById('senhaNova').value   = '';
+  document.getElementById('senhaConfirm').value = '';
+  fb.style.color = '#1a7a3c';
+  fb.textContent = '✅ Senha alterada com sucesso!';
+  setTimeout(() => fb.textContent = '', 3000);
+}
+
+// Fechar modal clicando fora
+document.getElementById('adminModal').addEventListener('click', function(e) {
+  if (e.target === this) fecharAdmin();
+});
+
+// Snapshot dos encarregados fixos originais (antes de qualquer modificação em runtime)
+const DB_FIXOS_ORIGINAL = [...DB.encarregados];
+
+// ── Mapa de linhas por terminal (snapshot do DB original) ──
+const TERMINAIS = {
+  'Capelinha':        [],
+  'João Dias':        [],
+  'Guarapiranga':     [],
+  'Parelheiros':      [],
+  'Estação Varginha': [],
+  'Bandeira':         [],
+  'Jardim Ângela':    [],
+  'Santo Amaro':      [],
+  'Grajaú':           [],
+};
+
+// Preenche o mapa com as linhas hardcoded, usando os comentários como fronteiras
+(function() {
+  // Mapeamento comentário -> chave do terminal
+  const BLOCOS = [
+    { tag: 'Linhas do Capelinha',        key: 'Capelinha' },
+    { tag: 'Linhas do João Dias',         key: 'João Dias' },
+    { tag: 'Linhas Terminal Guarapiranga',key: 'Guarapiranga' },
+    { tag: 'Linhas Terminal Parelheiros', key: 'Parelheiros' },
+    { tag: 'Terminal Estação Varginha',   key: 'Estação Varginha' },
+    { tag: 'Terminal Bandeira',           key: 'Bandeira' },
+    { tag: 'Linhas Terminal Jardi Ângela',key: 'Jardim Ângela' },
+    { tag: 'Linhas do Santo Amaro',       key: 'Santo Amaro' },
+    { tag: 'Linhas do Grajaú',            key: 'Grajaú' },
+  ];
+
+  // Usamos o HTML fonte para extrair os blocos por comentário
+  const src = document.currentScript
+    ? document.currentScript.textContent
+    : '';
+
+  // Parse via regex: captura linhas entre comentários de terminal
+  const raw = document.querySelector('script:last-of-type') || document.scripts[document.scripts.length - 1];
+  // Fallback: usamos DB.linhas diretamente e distribuímos pela ordem dos comentários
+  // Como não temos o texto fonte facilmente, usamos uma abordagem baseada no array DB.linhas
+  // e nos marcadores que já estão no array como strings conhecidas.
+
+  // Marcadores: primeira linha de cada bloco (usada como fronteira)
+  const MARCADORES = [
+    { linha: '6500-10 Terminal Bandeira',           key: 'Capelinha' },
+    { linha: '5119-10 Terminal Capelinha',          key: 'João Dias' },
+    { linha: '5129-10 Jardim Miriam',               key: 'Guarapiranga' },
+    { linha: '6000-10 Terminal Santo Amaro',        key: 'Parelheiros' },
+    { linha: '6051-10 Jardim Itajaí',               key: 'Estação Varginha' },
+    { linha: '6008-41 Jardim Copacabana(Circular)', key: 'Jardim Ângela' },
+    { linha: '5111-10 Terminal Pq.Dom Pedro II',    key: 'Santo Amaro' },
+    { linha: '6003-10 Terminal Varginha',           key: 'Grajaú' },
+  ];
+
+  let currentKey = null;
+  for (const linha of DB.linhas) {
+    const marc = MARCADORES.find(m => m.linha === linha);
+    if (marc) currentKey = marc.key;
+    if (currentKey && TERMINAIS[currentKey] !== undefined) {
+      if (!TERMINAIS[currentKey].includes(linha)) {
+        TERMINAIS[currentKey].push(linha);
+      }
+    }
+  }
+})();
+
+// Snapshot fixo das linhas por terminal
+const LINHAS_FIXAS_ORIGINAL = {};
+for (const t of Object.keys(TERMINAIS)) {
+  LINHAS_FIXAS_ORIGINAL[t] = [...TERMINAIS[t]];
+}
+
+// Storage das linhas
+const LINHAS_EXTRAS_KEY    = 'admin_linhas_extras';
+const LINHAS_REMOVIDAS_KEY = 'admin_linhas_removidas';
+
+function getLinhasExtras() {
+  try { return JSON.parse(localStorage.getItem(LINHAS_EXTRAS_KEY) || '{}'); } catch { return {}; }
+}
+function salvarLinhasExtras(obj) {
+  localStorage.setItem(LINHAS_EXTRAS_KEY, JSON.stringify(obj));
+}
+function getLinhasRemovidas() {
+  try { return JSON.parse(localStorage.getItem(LINHAS_REMOVIDAS_KEY) || '{}'); } catch { return {}; }
+}
+function salvarLinhasRemovidas(obj) {
+  localStorage.setItem(LINHAS_REMOVIDAS_KEY, JSON.stringify(obj));
+}
+
+// Reconstrói DB.linhas a partir dos terminais (fixas - removidas + extras)
+function reconstruirDBLinhas() {
+  const extras    = getLinhasExtras();
+  const removidas = getLinhasRemovidas();
+  const resultado = [];
+  for (const t of Object.keys(TERMINAIS)) {
+    const fixas    = LINHAS_FIXAS_ORIGINAL[t] || [];
+    const removT   = removidas[t] || [];
+    const extrasT  = extras[t]    || [];
+    for (const l of fixas)   { if (!removT.includes(l) && !resultado.includes(l)) resultado.push(l); }
+    for (const l of extrasT) { if (!resultado.includes(l)) resultado.push(l); }
+  }
+  DB.linhas = resultado;
+}
+
+// ── Render lista de linhas ──
+function renderLinhasList() {
+  const terminal  = document.getElementById('terminalFiltro').value;
+  const extras    = getLinhasExtras();
+  const removidas = getLinhasRemovidas();
+  const fixas     = LINHAS_FIXAS_ORIGINAL[terminal] || [];
+  const removT    = removidas[terminal] || [];
+  const extrasT   = extras[terminal]    || [];
+
+  const fixasAtivas = fixas.filter(l => !removT.includes(l)).map(l => ({ label: l, fixo: true }));
+  const extrasAtivas = extrasT.map(l => ({ label: l, fixo: false }));
+  const todos = [...extrasAtivas, ...fixasAtivas];
+
+  document.getElementById('linhaCount').textContent = todos.length;
+  const list = document.getElementById('linhaList');
+
+  if (todos.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:#aaa;font-size:.85rem;padding:12px">Nenhuma linha neste terminal</div>';
+    return;
+  }
+
+  list.innerHTML = todos.map(f => {
+    const esc = f.label.replace(/'/g, "&apos;");
+    return `<div class="func-item">
+      <div class="func-name">
+        ${f.label}
+        ${f.fixo
+          ? '<span class="func-cargo">padrão</span>'
+          : '<span class="func-cargo" style="color:#1a7a3c">adicionada</span>'}
+      </div>
+      <button class="btn-del" onclick="deletarLinha('${esc}',${f.fixo})">✕</button>
+    </div>`;
+  }).join('');
+}
+
+// ── Adicionar linha ──
+function adicionarLinha() {
+  const terminal = document.getElementById('terminalFiltro').value;
+  const nome     = document.getElementById('novaLinhaNome').value.trim();
+  const fb       = document.getElementById('linhaFb');
+
+  if (!nome) {
+    fb.style.color = '#c0392b';
+    fb.textContent = '⚠️ Preencha o nome da linha';
+    setTimeout(() => fb.textContent = '', 2500);
+    return;
+  }
+
+  if (DB.linhas.includes(nome)) {
+    fb.style.color = '#c0392b';
+    fb.textContent = '⚠️ Linha já cadastrada';
+    setTimeout(() => fb.textContent = '', 2500);
+    return;
+  }
+
+  const extras = getLinhasExtras();
+  if (!extras[terminal]) extras[terminal] = [];
+  extras[terminal].push(nome);
+  salvarLinhasExtras(extras);
+
+  reconstruirDBLinhas();
+  document.getElementById('novaLinhaNome').value = '';
+  fb.style.color = '#1a7a3c';
+  fb.textContent = '✅ Linha adicionada!';
+  setTimeout(() => fb.textContent = '', 2500);
+  renderLinhasList();
+}
+
+// ── Deletar linha ──
+function deletarLinha(label, ehFixa) {
+  label = label.replace(/&apos;/g, "'");
+  if (!confirm(`Remover "${label}"?`)) return;
+  const terminal = document.getElementById('terminalFiltro').value;
+
+  if (ehFixa) {
+    const removidas = getLinhasRemovidas();
+    if (!removidas[terminal]) removidas[terminal] = [];
+    if (!removidas[terminal].includes(label)) removidas[terminal].push(label);
+    salvarLinhasRemovidas(removidas);
+  } else {
+    const extras = getLinhasExtras();
+    if (extras[terminal]) {
+      extras[terminal] = extras[terminal].filter(l => l !== label);
+      salvarLinhasExtras(extras);
+    }
+  }
+
+  reconstruirDBLinhas();
+  renderLinhasList();
+
+  const fb = document.getElementById('linhaFb');
+  fb.style.color = '#c0392b';
+  fb.textContent = '🗑️ Linha removida';
+  setTimeout(() => fb.textContent = '', 2500);
+}
+
+// Carregar estado admin no boot: aplicar removidos e extras
+(function() {
+  const removidos = getRemovidosFixos();
+  const extras    = getFuncionarios();
+
+  // 1. Remover fixos que o admin apagou
+  if (removidos.length > 0) {
+    DB.encarregados = DB.encarregados.filter(e => !removidos.includes(e));
+  }
+
+  // 2. Adicionar extras cadastrados pelo admin
+  if (extras.length > 0) {
+    const novos = extras.map(f => f.label).filter(l => !DB.encarregados.includes(l));
+    DB.encarregados.push(...novos);
+  }
+
+  if (removidos.length > 0 || extras.length > 0) {
+    buildAllSelects();
+  }
+
+  // 3. Aplicar alterações de linhas (removidas + extras)
+  reconstruirDBLinhas();
+})();
 </script>
 </body>
 </html>
